@@ -14,6 +14,6 @@ export const rewardsData: RewardItem[] = [
   { id: '4', name: '乐高积木', description: '好玩的乐高积木一套', price: 1000, icon: '🧱', type: 'physical' },
   { id: '5', name: '零花钱10元', description: '可以买自己喜欢的东西', price: 200, icon: '💰', type: 'money' },
   { id: '6', name: '零花钱50元', description: '可以买更大的礼物', price: 1000, icon: '💵', type: 'money' },
-  { id: '7', name: '冰淇淋', description: '美味的冰淇淋一个', price: 100, icon: '🍦', type: 'physical' },
+  { id: '7', name: '冰淇淋', description: '美味的冰淇淋一个', price: 1500, icon: '🍦', type: 'physical' },
   { id: '8', name: '电影票', description: '去电影院看动画片', price: 300, icon: '🎬', type: 'physical' },
 ];

@@ -142,12 +142,8 @@ export const WordMatch: React.FC = () => {
           setShowSentencePopup(true);
           
           speakSentence(wordData.sentence, () => {
-            speakChinese(wordData.sentence);
+            setShowSentencePopup(false);
           });
-          
-          const sentenceLength = wordData.sentence.length;
-          const estimatedTime = sentenceLength * 100 + 2000;
-          setTimeout(() => setShowSentencePopup(false), estimatedTime);
         }
       } else {
         setScore(prev => Math.max(0, prev - 5));
@@ -580,28 +576,21 @@ export const WordMatch: React.FC = () => {
                           className="text-3xl sm:text-4xl md:text-5xl cursor-pointer hover:scale-110 transition-transform"
                           onClick={(e) => {
                             e.stopPropagation();
-                            if (wordData) speakChinese(wordData.chinese);
                             handleCardClick(card);
                           }}
                         >{card.content}</div>
                         {wordData && (
                           <div 
-                            className="text-xs sm:text-sm md:text-base font-medium text-game-green mt-1 cursor-pointer hover:text-game-orange transition-colors"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              speakChinese(wordData.chinese);
-                              handleCardClick(card);
-                            }}
+                            className="text-xs sm:text-sm md:text-base font-medium text-game-green mt-1"
                           >{wordData.chinese}</div>
                         )}
                       </div>
                     ) : (
                       <div className="text-center">
                         <div 
-                          className="text-base sm:text-lg md:text-xl font-bold text-game-purple break-all cursor-pointer hover:text-game-blue transition-colors"
+                          className="text-base sm:text-lg md:text-xl font-bold text-game-purple break-all"
                           onClick={(e) => {
                             e.stopPropagation();
-                            speakWord(card.content);
                             handleCardClick(card);
                           }}
                         >{card.content}</div>

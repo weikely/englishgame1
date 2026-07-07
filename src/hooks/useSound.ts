@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react';
 
 export const useSound = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
+  const currentSpeechIdRef = useRef(0);
 
   const getAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
@@ -61,12 +62,18 @@ export const useSound = () => {
   const speak = useCallback((text: string, onEnd?: () => void) => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
+      const speechId = ++currentSpeechIdRef.current;
+      const currentId = speechId;
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
       utterance.rate = 0.75;
       utterance.pitch = 1.0;
       if (onEnd) {
-        utterance.onend = onEnd;
+        utterance.onend = () => {
+          if (currentId === currentSpeechIdRef.current) {
+            onEnd();
+          }
+        };
       }
       window.speechSynthesis.speak(utterance);
     }

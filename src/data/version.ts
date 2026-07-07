@@ -4,9 +4,18 @@ export interface VersionInfo {
   changes: string[];
 }
 
-export const currentVersion = '1.4.0';
+export const currentVersion = '1.4.1';
 
 export const versionHistory: VersionInfo[] = [
+  {
+    version: '1.4.1',
+    date: '2026-07-07',
+    changes: [
+      '完善版本更新机制，确保用户数据在版本更新时不丢失',
+      '添加数据迁移保护，兼容旧版本数据格式',
+      '优化版本号管理',
+    ],
+  },
   {
     version: '1.4.0',
     date: '2026-07-07',

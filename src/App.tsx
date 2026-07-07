@@ -74,8 +74,49 @@ function AppContent() {
     const savedVersion = localStorage.getItem('app_version');
     if (savedVersion !== currentVersion) {
       localStorage.setItem('app_version', currentVersion);
+      console.log(`版本更新: ${savedVersion || 'none'} -> ${currentVersion}`);
     }
   }, [currentVersion]);
+
+  useEffect(() => {
+    const migrateUserData = () => {
+      const userStoreKey = 'english-learning-game-users';
+      const gameStoreKey = 'english-learning-game-storage';
+      
+      const userData = localStorage.getItem(userStoreKey);
+      const gameData = localStorage.getItem(gameStoreKey);
+      
+      if (userData) {
+        try {
+          const parsed = JSON.parse(userData);
+          if (!parsed._persist) {
+            localStorage.setItem(userStoreKey, JSON.stringify({
+              ...parsed,
+              _persist: { version: 1, rehydrated: true }
+            }));
+          }
+        } catch (e) {
+          console.error('用户数据迁移失败:', e);
+        }
+      }
+      
+      if (gameData) {
+        try {
+          const parsed = JSON.parse(gameData);
+          if (!parsed._persist) {
+            localStorage.setItem(gameStoreKey, JSON.stringify({
+              ...parsed,
+              _persist: { version: 1, rehydrated: true }
+            }));
+          }
+        } catch (e) {
+          console.error('游戏数据迁移失败:', e);
+        }
+      }
+    };
+    
+    migrateUserData();
+  }, []);
 
   useEffect(() => {
     const username = currentUser?.username || null;

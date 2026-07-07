@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+  /* 安全区域适配（刘海屏、底部横条） */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, #4FC3F7 0%, #81D4FA 50%, #AED581 100%);
+  overflow-x: hidden;
+  /* 防止字体过大 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* 触摸优化 */
+  touch-action: manipulation;
+  /* 安全区域 padding */
+  padding-top: var(--safe-area-top);
+  padding-bottom: var(--safe-area-bottom);
+  padding-left: var(--safe-area-left);
+  padding-right: var(--safe-area-right);
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* 移动端输入框优化：避免 iOS 聚焦放大 */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* 移动端按钮触摸反馈 */
+button, [role="button"], .cursor-pointer {
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* 防止长按选中 */
+img, .no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.game-btn {
+  @apply px-6 py-4 rounded-2xl font-bold text-white text-lg shadow-lg transform transition-all duration-200;
+  @apply hover:scale-105 hover:shadow-xl active:scale-95;
+}
+
+.game-card {
+  @apply bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl p-6;
+}
+
+.letter-bubble {
+  @apply w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold;
+  @apply shadow-lg transform transition-all duration-200;
+}
+
+@keyframes falling {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(calc(100vh + 50px)) rotate(360deg);
+  }
+}
+
+.falling-letter {
+  animation: falling linear forwards;
+}
+
+@keyframes collect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.collect-animation {
+  animation: collect 0.3s ease-out forwards;
+}
+
+@keyframes score-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.score-pop {
+  animation: score-pop 0.3s ease-out;
+}
+
+@keyframes star-shine {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #FFEE58);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px #FFEE58);
+  }
+}
+
+.star-shine {
+  animation: star-shine 1.5s ease-in-out infinite;
+}
+
+@keyframes trophy-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px #FFA726);
+  }
+  50% {
+    filter: drop-shadow(0 0 25px #FFA726);
+  }
+}
+
+.trophy-glow {
+  animation: trophy-glow 2s ease-in-out infinite;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #FFA726, #EF5350, #AB47BC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(79, 195, 247, 0.8);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 195, 247, 1);
+}

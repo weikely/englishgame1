@@ -4,9 +4,17 @@ export interface VersionInfo {
   changes: string[];
 }
 
-export const currentVersion = '1.4.1';
+export const currentVersion = '1.5.0';
 
 export const versionHistory: VersionInfo[] = [
+  {
+    version: '1.5.0',
+    date: '2026-07-07',
+    changes: [
+      '修复关卡解锁状态丢失问题：完成关卡后返回再进入，已解锁的关卡保持解锁状态',
+      '优化返回按钮逻辑：在闯关页面点击返回会回到关卡选择列表，而非首页',
+    ],
+  },
   {
     version: '1.4.1',
     date: '2026-07-07',

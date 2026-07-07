@@ -413,10 +413,14 @@ export const useGameStore = create<GameState>()(
 
       initializeLevels: () => {
         const levels = generateLevels();
+        const state = get();
+        const nextLevel = state.completedLevels.length > 0 
+          ? Math.max(...state.completedLevels) + 1 
+          : 1;
         set({
           levelInfoList: levels,
           maxLevel: levels.length,
-          currentLevel: 1,
+          currentLevel: nextLevel,
         });
       },
 

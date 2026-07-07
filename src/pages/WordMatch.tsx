@@ -252,7 +252,7 @@ export const WordMatch: React.FC = () => {
           {/* 顶部行：返回按钮 + 标题 */}
           <div className="flex items-center justify-between mb-2 sm:mb-0">
             <Button
-              onClick={() => navigate('/')}
+              onClick={() => navigate(-1)}
               variant="secondary"
               size="sm"
             >

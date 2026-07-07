@@ -368,8 +368,8 @@ export const WordMatch: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20">
           <Card className="text-center bg-game-blue/90 w-full max-w-md animate-pop">
             <div className="text-3xl sm:text-4xl mb-2">💡</div>
-            <div className="text-xl sm:text-2xl font-bold text-yellow-300 mb-1">{hintWord}</div>
-            <div className="text-lg sm:text-xl font-bold text-yellow-100">意思是：{hintChinese}</div>
+            <div className="text-xl sm:text-2xl font-bold text-orange-400 mb-1">{hintWord}</div>
+            <div className="text-lg sm:text-xl font-bold text-blue-400">意思是：{hintChinese}</div>
           </Card>
         </div>
       )}

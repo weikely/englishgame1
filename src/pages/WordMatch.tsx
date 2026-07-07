@@ -46,6 +46,7 @@ export const WordMatch: React.FC = () => {
   const [currentWords, setCurrentWords] = useState<WordData[]>([]);
   const [showSentencePopup, setShowSentencePopup] = useState(false);
   const [currentSentence, setCurrentSentence] = useState('');
+  const [currentSentenceChinese, setCurrentSentenceChinese] = useState('');
   const [currentWord, setCurrentWord] = useState('');
   const [currentChinese, setCurrentChinese] = useState('');
   const [errorCounts, setErrorCounts] = useState<Record<string, number>>({});
@@ -141,11 +142,18 @@ export const WordMatch: React.FC = () => {
           setCurrentWord(wordData.word);
           setCurrentChinese(wordData.chinese);
           setCurrentSentence(wordData.sentence);
+          setCurrentSentenceChinese(wordData.sentenceChinese || '');
           setShowSentencePopup(true);
           
           setTimeout(() => {
             speakSentence(wordData.sentence, () => {
-              setShowSentencePopup(false);
+              if (wordData.sentenceChinese) {
+                speakChinese(wordData.sentenceChinese, () => {
+                  setShowSentencePopup(false);
+                });
+              } else {
+                setShowSentencePopup(false);
+              }
             });
           }, 100);
         }
@@ -335,9 +343,16 @@ export const WordMatch: React.FC = () => {
               className="text-lg sm:text-xl font-medium text-game-green mb-2 cursor-pointer hover:text-game-orange transition-colors"
               onClick={() => speakChinese(currentChinese)}
             >{currentChinese}</div>
-            <div className="text-base sm:text-lg text-gray-700 italic">"{currentSentence}"</div>
+            <div className="text-base sm:text-lg text-gray-700 italic mb-2">"{currentSentence}"</div>
+            <div className="text-base sm:text-lg text-game-blue font-medium italic">{currentSentenceChinese}</div>
             <Button
-              onClick={() => speakSentence(currentSentence)}
+              onClick={() => {
+                speakSentence(currentSentence, () => {
+                  if (currentSentenceChinese) {
+                    speakChinese(currentSentenceChinese);
+                  }
+                });
+              }}
               variant="primary"
               size="sm"
               className="mt-3"
@@ -353,8 +368,8 @@ export const WordMatch: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20">
           <Card className="text-center bg-game-blue/90 w-full max-w-md animate-pop">
             <div className="text-3xl sm:text-4xl mb-2">💡</div>
-            <div className="text-xl sm:text-2xl font-bold text-white mb-1">{hintWord}</div>
-            <div className="text-lg sm:text-xl font-medium text-yellow-300">意思是：{hintChinese}</div>
+            <div className="text-xl sm:text-2xl font-bold text-yellow-300 mb-1">{hintWord}</div>
+            <div className="text-lg sm:text-xl font-bold text-yellow-100">意思是：{hintChinese}</div>
           </Card>
         </div>
       )}

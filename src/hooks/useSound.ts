@@ -120,13 +120,14 @@ export const useSound = () => {
     speak(sentence, onEnd);
   }, [speak]);
 
-  const speakChinese = useCallback((text: string) => {
+  const speakChinese = useCallback((text: string, onEnd?: () => void) => {
     if (!('speechSynthesis' in window)) return;
     
     speechQueueRef.current.push({
       text,
       lang: 'zh-CN',
       rate: 0.9,
+      onEnd,
     });
     
     if (!isSpeakingRef.current) {

@@ -4,9 +4,18 @@ export interface VersionInfo {
   changes: string[];
 }
 
-export const currentVersion = '1.5.0';
+export const currentVersion = '1.6.0';
 
 export const versionHistory: VersionInfo[] = [
+  {
+    version: '1.6.0',
+    date: '2026-07-07',
+    changes: [
+      '优化提示弹窗颜色：将中文意思文字改为醒目的黄色，更容易识别',
+      '连连看匹配成功后显示中文句子翻译',
+      '匹配成功后依次朗读英文句子和中文翻译',
+    ],
+  },
   {
     version: '1.5.0',
     date: '2026-07-07',

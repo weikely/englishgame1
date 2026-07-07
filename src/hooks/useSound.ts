@@ -1,8 +1,16 @@
 import { useCallback, useRef } from 'react';
 
+interface SpeechQueueItem {
+  text: string;
+  lang: string;
+  rate: number;
+  onEnd?: () => void;
+}
+
 export const useSound = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
-  const currentSpeechIdRef = useRef(0);
+  const speechQueueRef = useRef<SpeechQueueItem[]>([]);
+  const isSpeakingRef = useRef(false);
 
   const getAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
@@ -59,25 +67,50 @@ export const useSound = () => {
     });
   }, [playNote]);
 
-  const speak = useCallback((text: string, onEnd?: () => void) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const speechId = ++currentSpeechIdRef.current;
-      const currentId = speechId;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.75;
-      utterance.pitch = 1.0;
-      if (onEnd) {
-        utterance.onend = () => {
-          if (currentId === currentSpeechIdRef.current) {
-            onEnd();
-          }
-        };
-      }
-      window.speechSynthesis.speak(utterance);
+  const processSpeechQueue = useCallback(() => {
+    if (!('speechSynthesis' in window)) return;
+    
+    if (speechQueueRef.current.length === 0) {
+      isSpeakingRef.current = false;
+      return;
     }
+
+    isSpeakingRef.current = true;
+    const item = speechQueueRef.current.shift()!;
+    
+    const utterance = new SpeechSynthesisUtterance(item.text);
+    utterance.lang = item.lang;
+    utterance.rate = item.rate;
+    utterance.pitch = 1.0;
+    
+    utterance.onend = () => {
+      if (item.onEnd) {
+        item.onEnd();
+      }
+      processSpeechQueue();
+    };
+    
+    utterance.onerror = () => {
+      processSpeechQueue();
+    };
+    
+    window.speechSynthesis.speak(utterance);
   }, []);
+
+  const speak = useCallback((text: string, onEnd?: () => void) => {
+    if (!('speechSynthesis' in window)) return;
+    
+    speechQueueRef.current.push({
+      text,
+      lang: 'en-US',
+      rate: 0.75,
+      onEnd,
+    });
+    
+    if (!isSpeakingRef.current) {
+      processSpeechQueue();
+    }
+  }, [processSpeechQueue]);
 
   const speakWord = useCallback((word: string) => {
     speak(word);
@@ -88,13 +121,24 @@ export const useSound = () => {
   }, [speak]);
 
   const speakChinese = useCallback((text: string) => {
+    if (!('speechSynthesis' in window)) return;
+    
+    speechQueueRef.current.push({
+      text,
+      lang: 'zh-CN',
+      rate: 0.9,
+    });
+    
+    if (!isSpeakingRef.current) {
+      processSpeechQueue();
+    }
+  }, [processSpeechQueue]);
+
+  const cancelSpeech = useCallback(() => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.9;
-      utterance.pitch = 1.0;
-      window.speechSynthesis.speak(utterance);
+      speechQueueRef.current = [];
+      isSpeakingRef.current = false;
     }
   }, []);
 
@@ -108,5 +152,6 @@ export const useSound = () => {
     speakWord,
     speakSentence,
     speakChinese,
+    cancelSpeech,
   };
 };

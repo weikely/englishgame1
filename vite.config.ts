@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
   
   return {
-    base: isProduction ? '/englishgame1/' : '/',
+    base: '/',
     server: {
       host: '0.0.0.0',
       port: 5173,

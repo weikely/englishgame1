@@ -4,9 +4,19 @@ export interface VersionInfo {
   changes: string[];
 }
 
-export const currentVersion = '1.3.0';
+export const currentVersion = '1.4.0';
 
 export const versionHistory: VersionInfo[] = [
+  {
+    version: '1.4.0',
+    date: '2026-07-07',
+    changes: [
+      '修复连连看配对成功后朗读不稳定的问题',
+      '添加朗读队列机制确保每次配对成功都能朗读',
+      '修复生产构建后白屏问题',
+      '在菜单中显示版本号',
+    ],
+  },
   {
     version: '1.3.0',
     date: '2026-07-07',

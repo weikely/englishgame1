@@ -34,7 +34,7 @@ export const WordMatch: React.FC = () => {
     getErrorWords,
     getBoostLevelWords,
   } = useGameStore();
-  const { playSuccess, playError, playLevelComplete, speakWord, speakSentence, speakChinese } = useSound();
+  const { playSuccess, playError, playLevelComplete, speakWord, speakSentence, speakChinese, cancelSpeech } = useSound();
   
   const [gameState, setGameState] = useState<'level-select' | 'playing' | 'level-complete' | 'all-complete'>('level-select');
   const [selectedLevel, setSelectedLevel] = useState<number>(currentLevel);
@@ -103,8 +103,10 @@ export const WordMatch: React.FC = () => {
     setSelectedCards([]);
     setMatchedCount(0);
     setErrorCounts({});
+    setShowSentencePopup(false);
+    cancelSpeech();
     initializeLevel(level, boostLevel);
-  }, [initializeLevel]);
+  }, [initializeLevel, cancelSpeech]);
 
   const handleCardClick = useCallback((card: CardItem) => {
     if (gameState !== 'playing' || card.matched) return;
@@ -141,9 +143,11 @@ export const WordMatch: React.FC = () => {
           setCurrentSentence(wordData.sentence);
           setShowSentencePopup(true);
           
-          speakSentence(wordData.sentence, () => {
-            setShowSentencePopup(false);
-          });
+          setTimeout(() => {
+            speakSentence(wordData.sentence, () => {
+              setShowSentencePopup(false);
+            });
+          }, 100);
         }
       } else {
         setScore(prev => Math.max(0, prev - 5));

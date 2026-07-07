@@ -15,7 +15,7 @@ class SPAHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     os.chdir(os.path.join(os.path.dirname(__file__), 'dist'))
-    server_address = ('0.0.0.0', 5173)
+    server_address = ('0.0.0.0', 5174)
     httpd = http.server.HTTPServer(server_address, SPAHandler)
     print(f"Serving at http://{server_address[0]}:{server_address[1]}")
     httpd.serve_forever()

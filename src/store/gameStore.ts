@@ -332,7 +332,7 @@ export const useGameStore = create<GameState>()(
         
         return {
           ...levelInfo,
-          unlocked: level <= state.currentLevel + 1 || state.completedLevels.includes(level),
+          unlocked: levelInfo.category === 'numbers' || level <= state.currentLevel + 1 || state.completedLevels.includes(level),
           completed: state.completedLevels.includes(level),
         };
       },

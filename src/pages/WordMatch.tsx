@@ -421,7 +421,7 @@ export const WordMatch: React.FC = () => {
                   {levels.map((levelInfo) => {
                     const isCompleted = completedLevels.includes(levelInfo.level);
                     const isCurrent = levelInfo.level === currentLevel;
-                    const isLocked = levelInfo.level > currentLevel + 1 && !isCompleted;
+                    const isLocked = levelInfo.category !== 'numbers' && levelInfo.level > currentLevel + 1 && !isCompleted;
 
                     return (
                       <Card

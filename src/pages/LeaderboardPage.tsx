@@ -22,6 +22,11 @@ export const LeaderboardPage: React.FC = () => {
     return b.gameData.stars - a.gameData.stars;
   });
 
+  const currentUserIndex = currentUser 
+    ? sortedUsers.findIndex(u => u.username === currentUser.username)
+    : -1;
+  const currentRank = currentUserIndex >= 0 ? currentUserIndex + 1 : null;
+
   const getRankIcon = (index: number) => {
     if (index === 0) return <Crown className="w-6 h-6 text-yellow-500" />;
     if (index === 1) return <Medal className="w-6 h-6 text-gray-400" />;
@@ -63,6 +68,13 @@ export const LeaderboardPage: React.FC = () => {
           <div className="text-4xl sm:text-5xl mb-3 sm:mb-4">🏆</div>
           <h2 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">学习排行榜</h2>
           <p className="text-white/80 mt-2 text-sm sm:text-base">看看谁是英语小达人！</p>
+          {currentRank && (
+            <div className="mt-4 inline-block bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg">
+              <span className="text-gray-600">我的排名：</span>
+              <span className="text-2xl sm:text-3xl font-bold text-game-purple ml-2">第 {currentRank} 名</span>
+              <span className="text-gray-500 ml-2">/ 共 {sortedUsers.length} 人</span>
+            </div>
+          )}
         </div>
 
         {sortedUsers.length === 0 ? (
@@ -83,9 +95,16 @@ export const LeaderboardPage: React.FC = () => {
                 <Card
                   key={user.username}
                   className={`${getRankBg(index)} ${
-                    isCurrentUser ? 'ring-4 ring-game-purple' : ''
-                  } border-2`}
+                    isCurrentUser 
+                      ? 'ring-4 ring-game-purple shadow-xl scale-[1.02] relative' 
+                      : ''
+                  } border-2 transition-all`}
                 >
+                  {isCurrentUser && (
+                    <div className="absolute -top-3 -right-3 bg-gradient-to-r from-game-purple to-game-blue text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                      就是我！
+                    </div>
+                  )}
                   <div className="flex items-center gap-2 sm:gap-4">
                     <div className="w-8 sm:w-12 flex justify-center flex-shrink-0">
                       {getRankIcon(index)}

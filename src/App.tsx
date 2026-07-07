@@ -158,7 +158,7 @@ function AppContent() {
 export default function App() {
   return (
     <ErrorBoundary>
-      <Router>
+      <Router basename="/englishgame1">
         <AppContent />
       </Router>
     </ErrorBoundary>

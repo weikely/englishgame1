@@ -2,20 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/englishgame1/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>马小跳的英语乐园</title>
     <script>
-      // GitHub Pages SPA redirect: redirect all paths to root with path as query
-      var pathSegmentsToKeep = 1; // Keep one path segment (englishgame1)
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
-        (l.search ? '~and~' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      var repoName = 'englishgame1';
+      var pathParts = l.pathname.split('/');
+      var rootPath = '/' + repoName + '/';
+      var routePath = pathParts.slice(2).join('/');
+      l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + rootPath + '?/' + routePath + (l.search ? '~and~' + l.search.slice(1).replace(/&/g, '~and~') : '') + l.hash);
     </script>
   </head>
   <body>
